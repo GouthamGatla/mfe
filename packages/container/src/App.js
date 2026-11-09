@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import Header from "./components/Header";
 import ProgressBar from "./components/progress"
 import {
@@ -15,14 +15,20 @@ const generateClassname = createGenerateClassName({
 });
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
     <BrowserRouter>
       <StylesProvider generateClassName={generateClassname}>
-        <Header />
+        <Header signedIn={isAuthenticated} onSignOut={() => setIsAuthenticated(false)}/>
         <Suspense fallback={<ProgressBar />}>
           <Switch>
-            <Route path="/auth" component={AuthAppLazy} />
-            <Route path="/" component={MarketingAppLazy} />
+            <Route path="/auth">
+              <AuthAppLazy onSignIn={() => setIsAuthenticated(true)}/>
+            </Route>
+            <Route path="/">
+              <MarketingAppLazy />
+            </Route>
           </Switch>
         </Suspense>
       </StylesProvider>

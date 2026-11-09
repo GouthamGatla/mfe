@@ -1,21 +1,28 @@
 import React from "react";
 import { Switch, Route, Router } from "react-router-dom";
-import { StylesProvider, createGenerateClassName } from "@material-ui/core/styles";
-import SignUp from './components/Signup'
-import SignIn from './components/Signin'
+import {
+  StylesProvider,
+  createGenerateClassName,
+} from "@material-ui/core/styles";
+import SignUp from "./components/Signup";
+import SignIn from "./components/Signin";
 
 const generateClassName = createGenerateClassName({
-  productionPrefix: 'au'
-})
+  productionPrefix: "au",
+});
 
-const App = ({history}) => {
+const App = ({ history, onSignIn }) => {
   return (
     <>
       <StylesProvider generateClassName={generateClassName}>
         <Router history={history}>
           <Switch>
-            <Route path="/auth/signup" component={SignUp}/>
-            <Route path="/auth/signin" component={SignIn}/>
+            <Route path="/auth/signup">
+              <SignUp onSignIn={onSignIn} />
+            </Route>
+            <Route path="/auth/signin">
+              <SignIn onSignIn={onSignIn} />
+            </Route>
           </Switch>
         </Router>
       </StylesProvider>
@@ -23,4 +30,4 @@ const App = ({history}) => {
   );
 };
 
-export default App
+export default App;
